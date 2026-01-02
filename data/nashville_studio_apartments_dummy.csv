@@ -1,0 +1,11 @@
+listing_id,property_name,neighborhood,monthly_rent_usd,driving_distance_to_downtown_miles
+NSH-0001,Riverbend Lofts,The Gulch,1795,1.1
+NSH-0002,Capitol View Studios,Germantown,1625,1.9
+NSH-0003,Music Row Micro Suites,Music Row,1540,2.2
+NSH-0004,Eastwood Studio Flats,East Nashville,1395,3.6
+NSH-0005,Wedgewood Park Studios,Wedgewood-Houston,1495,2.7
+NSH-0006,Sylvan Heights Studios,Sylvan Park,1475,4.5
+NSH-0007,Green Hills Studio Collective,Green Hills,1650,6.8
+NSH-0008,Midtown Studio Residences,Midtown,1585,2.0
+NSH-0009,Nations Studio Works,The Nations,1325,5.4
+NSH-0010,Donelson Studio Place,Donelson,1195,8.9
