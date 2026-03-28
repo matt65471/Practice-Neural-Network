@@ -66,9 +66,13 @@ for epoch in range(epochs):
 
     for images, labels in train_loader:
         optimizer.zero_grad()
+        # Get result of the training
         outputs = model(images)
+        # Calculate loss
         loss = criterion(outputs, labels)
+        # Use chain rule to calculate gradient for each step
         loss.backward()
+        # Goes back and adjusts everything with calculated gradient
         optimizer.step()
 
         running_loss += loss.item()
