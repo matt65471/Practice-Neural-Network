@@ -16,7 +16,7 @@ y = mnist.target.astype(np.int64)
 X = X / 255.0
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=10000, random_state=42, stratify=y
+    X, y, test_size=10000, stratify=y
 )
 
 X_train_tensor = torch.tensor(X_train)
