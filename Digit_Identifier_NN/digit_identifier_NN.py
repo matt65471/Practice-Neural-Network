@@ -52,12 +52,12 @@ class DigitNet(nn.Module):
 model = DigitNet()
 
 # Declare Cross Entropy Loss, but no need for including softmax because 
-# it is implemented here already. Softmax helps with storage by making the 
+# it is implemented here already. Softmax helps with stability by making the 
 # numbers smaller.
 criterion = nn.CrossEntropyLoss()
 
 # Declare gradient descent
-optimizer = optim.SGD(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
 epochs = 10
 for epoch in range(epochs):
@@ -95,3 +95,68 @@ with torch.no_grad():
 
 accuracy = 100 * correct / total
 print(f"Test Accuracy: {accuracy:.2f}%")
+
+
+
+
+# Try out NN by drawing
+
+grid = np.zeros((28, 28), dtype=int)
+
+drawing = False
+
+fig, ax = plt.subplots()
+img = ax.imshow(grid, cmap="gray_r", vmin=0, vmax=1)
+
+# Show grid lines
+ax.set_xticks(np.arange(-0.5, 28, 1), minor=True)
+ax.set_yticks(np.arange(-0.5, 28, 1), minor=True)
+ax.grid(which="minor", color="lightgray", linestyle="-", linewidth=0.5)
+ax.tick_params(which="both", bottom=False, left=False, labelbottom=False, labelleft=False)
+
+def update_cell(event):
+    if event.inaxes != ax or event.xdata is None or event.ydata is None:
+        return
+    x = int(event.xdata)
+    y = int(event.ydata)
+    if 0 <= x < 28 and 0 <= y < 28:
+        grid[y, x] = 1
+        img.set_data(grid)
+        fig.canvas.draw_idle()
+
+def on_press(event):
+    global drawing
+    if event.button == 1:
+        drawing = True
+        update_cell(event)
+
+def on_release(event):
+    global drawing
+    drawing = False
+
+def on_move(event):
+    if drawing:
+        update_cell(event)
+
+def on_key(event):
+    global grid
+    if event.key == "c":
+        grid[:] = 0
+        img.set_data(grid)
+        fig.canvas.draw_idle()
+    elif event.key == "r":
+        flat_grid = grid.flatten()
+        input_tensor = torch.tensor(flat_grid, dtype=torch.float32).unsqueeze(0)
+        with torch.no_grad():
+            outputs = model(input_tensor)
+            _, predicted = torch.max(outputs, 1)
+            plt.title("Draw on 28x28 Grid\nLeft click + drag to draw | c = clear | r = predict digit" + f" | Predicted: {predicted.item()}")
+            plt.draw()
+
+fig.canvas.mpl_connect("button_press_event", on_press)
+fig.canvas.mpl_connect("button_release_event", on_release)
+fig.canvas.mpl_connect("motion_notify_event", on_move)
+fig.canvas.mpl_connect("key_press_event", on_key)
+
+plt.title("Draw on 28x28 Grid\nLeft click + drag to draw | c = clear | r = predict digit")
+plt.show()
