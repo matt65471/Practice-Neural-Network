@@ -1,6 +1,10 @@
 datasets/
+data/
 
-# California-related dataset dirs (e.g. California housing / local copies)
+# California housing downloads (under this project folder name)
+California_Housing_Price_Model/datasets/
+
+# California-related dataset dirs (e.g. local copies)
 california/
 datasets/california/
 california/datasets/
