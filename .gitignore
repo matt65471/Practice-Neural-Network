@@ -1,1 +1,6 @@
 datasets/
+
+# California-related dataset dirs (e.g. California housing / local copies)
+california/
+datasets/california/
+california/datasets/
