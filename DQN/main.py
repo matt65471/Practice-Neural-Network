@@ -2,6 +2,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, random_split
+import torch.nn as nn
 
 
 transform = transforms.Compose([
@@ -54,3 +55,29 @@ test_loader = DataLoader(
     shuffle=False
 )
 
+def use_he_init(module):
+    if isinstance(module, nn.Linear):
+        nn.init.kaiming_uniform_(module.weight)
+        nn.init.zeros_(module.bias)
+
+class DQN(nn.Module):
+    def __init__(self, state_size, num_actions, hidden_size=100, num_hidden_layers=20):
+        super().__init__()
+
+        layers = [
+            nn.Linear(state_size, hidden_size),
+            nn.SiLU()
+        ]
+        
+        for _ in range(num_hidden_layers - 1):
+            layers.extend([
+                nn.Linear(hidden_size, hidden_size),
+                nn.SiLu()
+            ])
+        
+        layers.append(nn.Linear(hidden_size, num_actions))
+
+        self.apply(use_he_init)
+
+
+        self.network = nn.Sequential(*layers)
