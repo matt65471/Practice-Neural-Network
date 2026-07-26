@@ -1,5 +1,6 @@
 datasets/
 data/
+__pycache__/
 
 # California housing downloads (under this project folder name)
 California_Housing_Price_Model/datasets/
@@ -8,3 +9,5 @@ California_Housing_Price_Model/datasets/
 california/
 datasets/california/
 california/datasets/
+DNN/__pycache__
+DNN/checkpoints
